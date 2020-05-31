@@ -1,8 +1,36 @@
-<h1>{{repository.name}}</h1>
-<p>Owner Full Name: {{repository.full_name}}</p>
-<p>Open Issue count: {{repository.open_issues_count}}</p>
-<p>Default Branch: {{repository.default_branch}}</p>
-<br/><br/><br/>
-<h3>Read Me</h3>
-
-<div [innerHTML]="repoReadme"></div>
+<button class="button is-primary" style="margin-top: 10px;" (click)="backClicked()">Back</button>
+<div *ngIf="repository != null">
+    <div class="card" style="margin-top: 10px;">
+        <div class="card-content">
+            <div class="media">
+                <div class="media-left">
+                    <figure class="image is-48x48">
+                      <img src="{{repository.owner.avatar_url}}">
+                    </figure>
+                  </div>
+                <div class="media-content">
+                    <p class="title is-4 is-capitalized">
+                        {{ repository.name }}
+                        <a class="button is-primary is-pulled-right" href="{{repository.html_url}}" target="_blank">Go To Repo</a>
+                    </p>
+                    <p class="subtitle is-6">{{ repository.description }}</p>
+                    <p class="subtitle is-6">
+                        <strong>Owner Full Name:</strong> 
+                        {{repository.full_name}}
+                        <a class="button is-primary is-pulled-right" href="{{repository.owner.html_url}}" target="_blank">Go To Owner Link</a>
+                    </p>
+                    <p class="subtitle is-6"><strong>Open Issue count:</strong> {{repository.open_issues_count}}</p>
+                    <p class="subtitle is-6"><strong>Default Branch:</strong> {{repository.default_branch}}</p>
+                    <p class="subtitle is-6">
+                        <strong>ReadMe:</strong>
+                    </p>
+                    <div class="card">
+                        <div class="card-content">
+                            <markdown [data]="repoReadme"></markdown>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

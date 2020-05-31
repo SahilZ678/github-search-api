@@ -1,23 +1,58 @@
-<div class="repository-items-list">
-    <ul *ngIf="repositoryList.length > 0">
-      <li *ngFor="let repository of repositoryList" class="list-group">
-        <div class="list-group-item list-group-item-action flex-column align-items-start">
-          <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1">{{ repository.name }}</h5>
+<div *ngIf="repositoryList.length > 0">
+  <pagination-template 
+    #p="paginationApi"
+    [id]="config.id"
+    (pageChange)="config.currentPage = $event"
+  >
+    <nav class="pagination is-centered" role="navigation" style="margin: 10px 0;">
+      <a class="pagination-previous" [class.disabled]="p.isFirstPage()" (click)="p.previous()">
+        Previous
+      </a>
+
+      <ul *ngFor="let page of p.pages" class="pagination-list">
+        <li>
+          <a (click)="p.setCurrent(page.value)" *ngIf="p.getCurrent() !== page.value" class="pagination-link">
+           {{ page.label }}
+          </a>
+        </li>
+       
+        <li *ngIf="p.getCurrent() === page.value" [class.is-current]="p.getCurrent() === page.value" >
+          <a>
+            {{ page.label }}
+          </a>
+        </li>
+      </ul>
+
+      <a class="pagination-next" [class.disabled]="p.isLastPage()" (click)="p.next()">
+        Next
+      </a>
+    </nav>
+
+  </pagination-template>
+
+  <div *ngFor="let repository of repositoryList | paginate: config">
+    <div class="card">
+      <div class="card-content">
+        <div class="media">
+          <div class="media-left">
+            <figure class="image is-48x48">
+              <img src="{{repository.owner.avatar_url}}">
+            </figure>
           </div>
-          <p class="mb-1">{{ repository.description }}</p>
-          <br>
-          <p class="mb-1"><strong>URL:</strong> <a href="{{ repository.html_url }}" target="_blank">{{ repository.html_url }}</a></p>
-          <p class="mb-1"><strong>Forks count:</strong> {{ repository.forks_count }}</p>
-          <p class="mb-1"><strong>Stargazers count:</strong> {{ repository.stargazers_count }}</p>
-          <p class="mb-1"><strong>Watchers count:</strong> {{ repository.watchers_count }}</p>
-          <p class="mb-1">
-            <strong>Open issues:</strong> {{ repository.open_issues_count }}
-            <small *ngIf="repository.open_issues_count > 0">(click <a routerLink="/repository/issues/{{ repository.full_name }}">here</a> to check them out.)</small>
-          </p>
-          <p class="mb-1"><a routerLink="/repository/details/{{ repository.full_name }}">Check out the chart of this repository</a></p>
+          <div class="media-content">
+            <p class="title is-4">{{ repository.name }}</p>
+            <p class="subtitle is-6">{{ repository.description }}</p>
+            <p><strong>Author:</strong> {{ repository.full_name }}</p>
+            <p><strong>Stars:</strong> {{ repository.stargazers_count }}</p>
+            <p><strong>Watchers:</strong> {{ repository.watchers_count }}</p>
+            <p><strong>Forks:</strong> {{ repository.forks_count }}</p>
+            <p><strong>Updated At:</strong> {{ repository.updated_at | date }}</p>
+          </div>
+          <div class="content">
+            <a class="button is-primary" routerLink="/repository/details/{{ repository.full_name }}">Details</a>
+          </div>
         </div>
-      </li>
-    </ul>
+      </div>
+    </div>
   </div>
-  
+</div>

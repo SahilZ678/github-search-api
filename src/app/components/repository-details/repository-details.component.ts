@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import {Location} from '@angular/common';
+import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
+
 
 import { GithubApiService } from '../../services/github-api/github-api.service';
 
@@ -23,7 +26,8 @@ export class RepositoryDetailsComponent implements OnInit {
 
   constructor(
     private _githubApiService: GithubApiService,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private _location: Location
   ) { }
 
   ngOnInit(): void {
@@ -61,6 +65,10 @@ export class RepositoryDetailsComponent implements OnInit {
         }
       )
     
+  }
+
+  backClicked() {
+    this._location.back();
   }
 
 }

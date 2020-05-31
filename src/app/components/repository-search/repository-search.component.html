@@ -1,12 +1,18 @@
 
-<form (ngSubmit)="onSubmit()">
-  <div class="form-group">
-    <input type="search" class="form-control" placeholder="enter repository name here..." [formControl]="searchControl" [value]="searchName">
+<form (ngSubmit)="onSubmit()" style="margin: 10px 0;">
+
+  <div class="field has-addons">
+    <div class="control" style="width: 100%;">
+      <input type="search" class="input is-primary" type="text" placeholder="Enter repository name here..." [formControl]="searchControl" [value]="searchName">
+    </div>
+    <div class="control">
+      <button type="submit" class="button is-primary">Search</button>
+    </div>
   </div>
-  <button type="submit" class="btn btn-primary">Search</button>
 </form>
 
 <app-search-list [repositoryList]="repositoryList"></app-search-list>
-
+<div *ngIf="!repositoryList.length">
+  <h2 class="subtitle">Search a Github Repo</h2>
+</div>
 <p *ngIf="error">{{ error }}. Please go back to the <a routerLink="/">homepage</a> and try again.</p>
-
