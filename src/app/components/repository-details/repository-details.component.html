@@ -1,0 +1,8 @@
+<h1>{{repository.name}}</h1>
+<p>Owner Full Name: {{repository.full_name}}</p>
+<p>Open Issue count: {{repository.open_issues_count}}</p>
+<p>Default Branch: {{repository.default_branch}}</p>
+<br/><br/><br/>
+<h3>Read Me</h3>
+
+<div [innerHTML]="repoReadme"></div>
