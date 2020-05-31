@@ -13,6 +13,5 @@
 
 <app-search-list [repositoryList]="repositoryList"></app-search-list>
 <div *ngIf="!repositoryList.length">
-  <h2 class="subtitle">Search a Github Repo</h2>
+  <h2 class="subtitle">Search a Github Repo...</h2>
 </div>
-<p *ngIf="error">{{ error }}. Please go back to the <a routerLink="/">homepage</a> and try again.</p>
