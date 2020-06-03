@@ -20,8 +20,10 @@ export class RepositorySearchComponent implements OnInit {
   public repositoryList: Repository[] = [];
   public searchName = '';
   public error: string;
+  public isLoading: boolean = false;
 
-  private _subscription: any;
+  public sortValue: string;
+  public sortingValues = ['best-match', 'stars', 'forks', 'help-wanted-issues'];
 
   constructor(
     private _githubApiService: GithubApiService,
@@ -29,30 +31,31 @@ export class RepositorySearchComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this._subscription = this._route.params.subscribe(params => {
-      this.searchName = params.searchName || '';
-
-      if (this.searchName && this.searchName.length > 0) {
-        this._search();
-      }
-    });
-  }
-
-  ngOnDestroy() {
-    this._subscription.unsubscribe();
+    this.searchName = window.localStorage.getItem('searchData');
+    if (this.searchName && this.searchName.length > 0) {
+      this._search();
+    }
+    this.sortValue = 'best-match';
   }
 
   onSubmit(): void {
     if (!this.searchControl.value || this.searchControl.value.trim() === '') {
       return;
     }
-
     this.searchName = this.searchControl.value;
+    window.localStorage.setItem('searchData', this.searchName);
     this._search();
   }
 
+  formatOptions(string: string): string {
+    let value = string.charAt(0).toUpperCase() + string.slice(1);
+    return value.split('-').join(' ');
+  }
+  
+
   private _search(): void {
-    this._githubApiService.searchRepositoriesByName(this.searchName)
+    this.isLoading = true;
+    this._githubApiService.searchRepositoriesByName(this.searchName, this.sortValue)
       .subscribe(
         (data: RepositorySearchResult) => {
           const { total_count: totalCount, items } = data;
@@ -62,9 +65,11 @@ export class RepositorySearchComponent implements OnInit {
             this.repositoryList = [];
             this.error = 'Not found. Please try again or use a different name is the search input above.';
           }
+          this.isLoading = false;
         },
         (err: HttpErrorResponse) => {
           this.error = err.statusText;
+          this.isLoading = false;
         }
       );
   }

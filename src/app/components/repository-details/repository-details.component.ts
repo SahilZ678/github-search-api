@@ -20,6 +20,7 @@ export class RepositoryDetailsComponent implements OnInit {
   public repoReadme = null;
   public error: string;
 
+  public isLoading: boolean;
   private _subscription: any;
   private _owner: string;
   private _repo: string;
@@ -45,26 +46,22 @@ export class RepositoryDetailsComponent implements OnInit {
   }
 
   private _init(): void {
-    this._githubApiService.getRepositoryByOwnerAndRepo(this._owner, this._repo)
-      .subscribe(
-        (data: any) => {
-          this.repository = data;
+    this.isLoading = true;
+    this._githubApiService.getRepositoryByOwnerAndRepo(this._owner, this._repo).subscribe(
+        (repoData: any) => {
+          this._githubApiService.getRepositoryReadme(this._owner, this._repo).subscribe(
+            (readmeData: any) => {
+              this.repository = repoData;
+              this.repoReadme = atob(readmeData.content);
+              this.isLoading = false;
+            }
+          )
         },
         (err: HttpErrorResponse) => {
           this.repository = '';
           this.error = err.statusText;
         }
       );
-    this._githubApiService.getRepositoryReadme(this._owner, this._repo)
-      .subscribe(
-        (data: any) => {
-          this.repoReadme = atob(data.content);
-        },
-        (err: HttpErrorResponse) => {
-          this.repoReadme = '';
-        }
-      )
-    
   }
 
   backClicked() {

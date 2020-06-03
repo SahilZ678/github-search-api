@@ -23,7 +23,7 @@ export class SearchListComponent implements OnInit {
   public config: PaginationInstance = {
     id: 'custom',
     itemsPerPage: 10,
-    currentPage: 1
+    currentPage: 1,
 };
 
 }

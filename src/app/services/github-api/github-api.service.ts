@@ -2,9 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-const SEARCH_ITEMS_PER_PAGE = 1000;
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -12,8 +9,8 @@ export class GithubApiService {
 
   constructor(private _http: HttpClient) { }
 
-  public searchRepositoriesByName(name: string): Observable<Object> {
-    const url = this._generateSearchInRepositoriesUrl(name);
+  public searchRepositoriesByName(name: string, sort: string): Observable<Object> {
+    const url = this._generateSearchInRepositoriesUrl(name, sort);
 
     return this._http.get(url);
   }
@@ -30,8 +27,8 @@ export class GithubApiService {
     return this._http.get(url);
   }
 
-  private _generateSearchInRepositoriesUrl(name: string): string {
-    return `https://api.github.com/search/repositories?q=${name}&per_page=${SEARCH_ITEMS_PER_PAGE}`;
+  private _generateSearchInRepositoriesUrl(name: string, sort: string): string {
+    return `https://api.github.com/search/repositories?q=${name}&sort=${sort}&per_page=1000`;
   }
 
   private _generateRepositoryUrl(owner: string, repo: string) {

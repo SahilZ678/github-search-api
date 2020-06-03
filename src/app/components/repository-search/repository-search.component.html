@@ -1,12 +1,27 @@
 
-<form (ngSubmit)="onSubmit()" style="margin: 10px 0;">
+<form (ngSubmit)="onSubmit()" class="m-t-10-0">
 
-  <div class="field has-addons">
-    <div class="control" style="width: 100%;">
-      <input type="search" class="input is-primary" type="text" placeholder="Enter repository name here..." [formControl]="searchControl" [value]="searchName">
+  <div class="columns">
+    <div class="column">
+      <div class="control half-width">
+        <input type="search" class="input is-primary" type="text" placeholder="Enter repository name here..." [formControl]="searchControl" [(value)]="searchName">
+      </div>
     </div>
-    <div class="control">
-      <button type="submit" class="button is-primary">Search</button>
+    <div class="column">
+      <div class="select is-fullwidth is-primary">
+        <select [(ngModel)]="sortValue" name="selectForSortBy">
+          <option *ngFor="let sortValue of sortingValues" [ngValue]="sortValue">Sort By: {{formatOptions(sortValue)}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="column">
+      <div class="control">
+        <button type="submit" class="button is-primary" [class.is-loading]="isLoading">
+          <i class="fas fa-search"></i>
+          &nbsp;
+          Search
+        </button>
+      </div>
     </div>
   </div>
 </form>

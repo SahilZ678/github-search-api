@@ -1,6 +1,10 @@
-<button class="button is-primary" style="margin-top: 10px;" (click)="backClicked()">Back</button>
+<button class="button is-primary m-t-10" (click)="backClicked()" [class.is-loading]="isLoading">
+    <i class="fas fa-long-arrow-alt-left"></i>
+    &nbsp;
+    Back
+</button>
 <div *ngIf="repository != null">
-    <div class="card" style="margin-top: 10px;">
+    <div class="card m-t-10" >
         <div class="card-content">
             <div class="media">
                 <div class="media-left">
@@ -11,16 +15,36 @@
                 <div class="media-content">
                     <p class="title is-4 is-capitalized">
                         {{ repository.name }}
-                        <a class="button is-primary is-pulled-right" href="{{repository.html_url}}" target="_blank">Go To Repo</a>
+                        <a class="button is-primary is-pulled-right" href="{{repository.html_url}}" target="_blank">
+                            Go To Repo
+                            &nbsp;
+                            <i class="far fa-folder"></i>
+                        </a>
                     </p>
                     <p class="subtitle is-6">{{ repository.description }}</p>
                     <p class="subtitle is-6">
                         <strong>Owner Full Name:</strong> 
                         {{repository.full_name}}
-                        <a class="button is-primary is-pulled-right" href="{{repository.owner.html_url}}" target="_blank">Go To Owner Link</a>
+                        <a class="button is-primary is-pulled-right" href="{{repository.owner.html_url}}" target="_blank">
+                            Go To Owner Link
+                            &nbsp;
+                            <i class="fas fa-link"></i>
+                        </a>
                     </p>
-                    <p class="subtitle is-6"><strong>Open Issue count:</strong> {{repository.open_issues_count}}</p>
-                    <p class="subtitle is-6"><strong>Default Branch:</strong> {{repository.default_branch}}</p>
+                    <p class="subtitle is-6">
+                        <strong>Open Issue count:</strong> 
+                        {{repository.open_issues_count}}
+                        <i class="fas fa-bug"></i>
+                        <i class="fas fa-bug"></i>
+                        <i class="fas fa-bug"></i>
+                    </p>
+                    <p class="subtitle is-6">
+                        <strong>Default Branch:</strong> 
+                        {{repository.default_branch}}
+                        <i class="fas fa-code-branch"></i>
+                        <i class="fas fa-code-branch"></i>
+                        <i class="fas fa-code-branch"></i>
+                    </p>
                     <p class="subtitle is-6">
                         <strong>ReadMe:</strong>
                     </p>
